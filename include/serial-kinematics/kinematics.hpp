@@ -1,9 +1,8 @@
 #ifndef SERIAL_KINEMATICS_HPP
 #define SERIAL_KINEMATICS_HPP
 
+#include <Eigen/Geometry>
 #include <array>
-
-#include "Eigen/Geometry"
 
 namespace kinematics {
 

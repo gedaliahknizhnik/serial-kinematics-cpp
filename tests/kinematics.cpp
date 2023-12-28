@@ -4,13 +4,6 @@
 
 #include "catch2/catch_all.hpp"
 
-// Test case is a single test that you run
-// You give it a name/description and also you give it some tags.
-TEST_CASE("Testing framework is working fine", "[Catch2]") {
-  // Tests have to meet some requirements to be considered valid
-  REQUIRE(true);
-}
-
 TEST_CASE("Test homogeneous transforms", "[Kinematics]") {
   SECTION("Revolute Joint") {
     kinematics::Joint joint{kinematics::Type::revolute, 0, 1, 1, 0};

@@ -2,8 +2,6 @@
 
 #include "serial-kinematics/kinematics.hpp"
 
-// #include "catch.hpp"
-// #include "catch2/catch.hpp"
 #include "catch2/catch_all.hpp"
 
 // Test case is a single test that you run
@@ -13,15 +11,17 @@ TEST_CASE("Testing framework is working fine", "[Catch2]") {
   REQUIRE(true);
 }
 
-// TEST_CASE("Testing MyLib", "[mylib]") {
-//   int width = GetWidth();  // imaginary function in MyLib
-//   REQUIRE(width == 1920);
-//
-//   // Sections would actually run the code from the beginning of the test case
-//   // but they you will run sections one by one
-//   SECTION("A Section") {
-//     SetWidth(640);
-//     width = GetWidth();
-//     REQUIRE(width == 640);
-//   }
-// }
+TEST_CASE("Test homogeneous transforms", "[Kinematics]") {
+  SECTION("Revolute Joint") {
+    kinematics::Joint joint{kinematics::Type::revolute, 0, 1, 1, 0};
+
+    Eigen::Matrix4d H1;
+    H1 << 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1;
+    REQUIRE(H1.isApprox(kinematics::get_transform(joint, 0)));
+
+    Eigen::Matrix4d H2;
+    H2 << 0.248, -0.969, 0, 0.248, 0.969, 0.248, 0, 0.969, 0, 0, 1, 1, 0, 0, 0,
+        1;
+    REQUIRE(H2.isApprox(kinematics::get_transform(joint, 1.32), 1e-3));
+  }
+}

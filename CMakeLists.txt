@@ -33,6 +33,8 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Catch2)
 
+include_directories(include)
+
 # KINEMATICS LIBRARY ###########################################################
 
 add_library(kinematics src/kinematics.cpp

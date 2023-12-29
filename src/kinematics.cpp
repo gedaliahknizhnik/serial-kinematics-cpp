@@ -5,12 +5,53 @@
 #include <ios>
 
 namespace kinematics {
-Eigen::Matrix4d get_transform(const Joint joint, const double joint_angle) {
+
+// JOINT TYPES *****************************************************************
+
+std::string type_to_string(const Type& type) {
+  switch (type) {
+    case Type::revolute:
+      return "revolute";
+    case Type::prismatic:
+      return "prismatic";
+    default:
+      return "not a type";
+  }
+}
+
+// SINGLE JOINT ****************************************************************
+
+std::ostream& operator<<(std::ostream& out, const Joint& joint) {
+  if (Type::not_a_joint == joint.type) {  // Print definition
+    out << "[ theta, a, d, alpha ] <type> ";
+  } else {  // Print actual joint
+    out << "[ " << std::fixed << std::setprecision(2) << joint.theta << ", "
+        << joint.a << ", " << joint.d << ", " << joint.alpha << "] <"
+        << type_to_string(joint.type) << ">";
+  }
+  return out;
+}
+
+// KINEMATIC CHAIN *************************************************************
+
+std::ostream& operator<<(std::ostream& out,
+                         const DenhavitHartenbergParam& params) {
+  out << Joint{} << "\n";
+  for (const auto& joint : params.joints) {
+    out << " - " << joint << "\n";
+  }
+
+  return out;
+}
+
+// TRANSFORMATIONS *************************************************************
+
+Eigen::Matrix4d get_transform(const Joint joint, const double joint_var) {
   Eigen::Matrix4d H{Eigen::Matrix4d::Zero()};
 
   // Joint variables
-  double theta = joint.theta + joint_angle * (Type::revolute == joint.type);
-  double d = joint.d + joint_angle * (Type::prismatic == joint.type);
+  double theta = joint.theta + joint_var * (Type::revolute == joint.type);
+  double d = joint.d + joint_var * (Type::prismatic == joint.type);
 
   // Fill in rotation
   H(0, 0) = std::cos(theta);
@@ -31,33 +72,5 @@ Eigen::Matrix4d get_transform(const Joint joint, const double joint_angle) {
 
   return H;
 }
-std::string type_to_string(const Type& type) {
-  switch (type) {
-    case Type::revolute:
-      return "revolute";
-    case Type::prismatic:
-      return "prismatic";
-    default:
-      return "not a type";
-  }
-}
-std::ostream& operator<<(std::ostream& out, const Joint& joint) {
-  if (Type::not_a_joint == joint.type) {
-    out << "[ theta, a, d, alpha ] <type> ";
-  } else {
-    out << "[ " << std::fixed << std::setprecision(2) << joint.theta << ", "
-        << joint.a << ", " << joint.d << ", " << joint.alpha << "] <"
-        << type_to_string(joint.type) << ">";
-  }
-  return out;
-}
-std::ostream& operator<<(std::ostream& out,
-                         const DenhavitHartenbergParam& params) {
-  out << Joint{} << "\n";
-  for (const auto& joint : params.joints) {
-    out << " - " << joint << "\n";
-  }
 
-  return out;
-}
 }  // namespace kinematics

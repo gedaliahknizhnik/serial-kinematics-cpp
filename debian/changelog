@@ -1,5 +1,12 @@
+serial-kinematics (0.2.0) jammy; urgency=medium
+
+  * Add definition of serial chain and ability to display it.
+  * Overloaded print operators for used structures.
+
+ -- Gedaliah Knizhnik <gedaliah.knizhnik@gmail.com>  Fri, 29 Dec 2023 11:11:11 -0500
+
 serial-kinematics (0.1.0) jammy; urgency=medium
 
-  * Basic definitions for a homogenous transform from a joint,  with unit tests
+  * Basic definitions for a homogenous transform from a joint,  with unit tests.
 
  -- Gedaliah Knizhnik <gedaliah.knizhnik@gmail.com>  Fri, 29 Dec 2023 10:03:33 -0500

@@ -29,4 +29,23 @@ Eigen::Matrix4d get_transform(const Joint joint, const double joint_angle) {
 
   return H;
 }
+std::string type_to_string(const Type& type) {
+  switch (type) {
+    case Type::revolute:
+      return "revolute";
+    case Type::prismatic:
+      return "prismatic";
+    default:
+      return "not a type";
+  }
+}
+std::ostream& operator<<(std::ostream& out, const Joint& joint) {
+  if (Type::not_a_joint == joint.type) {
+    out << "[ theta, a, d, alpha ] <type> ";
+  } else {
+    out << "[ " << joint.theta << ", " << joint.a << ", " << joint.d << ", "
+        << joint.alpha << "] <" << type_to_string(joint.type) << ">";
+  }
+  return out;
+}
 }  // namespace kinematics

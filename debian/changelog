@@ -1,3 +1,9 @@
+serial-kinematics (0.2.0) UNRELEASED; urgency=medium
+
+  * Add definition of serial chain and ability to display it. 
+
+ -- Gedaliah Knizhnik <gedaliah.knizhnik@gmail.com>  Fri, 29 Dec 2023 10:05:28 -0500
+
 serial-kinematics (0.1.0) jammy; urgency=medium
 
   * Basic definitions for a homogenous transform from a joint,  with unit tests

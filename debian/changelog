@@ -1,5 +1,5 @@
-serial-kinematics (0.1.0) UNRELEASED; urgency=medium
+serial-kinematics (0.1.0) jammy; urgency=medium
 
-  * Initial release.
+  * Basic definitions for a homogenous transform from a joint,  with unit tests
 
- -- Gedaliah Knizhnik <gedaliah.knizhnik@gmail.com>  Mon, 25 Dec 2023 07:03:12 -0500
+ -- Gedaliah Knizhnik <gedaliah.knizhnik@gmail.com>  Fri, 29 Dec 2023 10:03:33 -0500

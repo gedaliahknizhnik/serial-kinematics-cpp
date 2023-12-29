@@ -48,4 +48,13 @@ std::ostream& operator<<(std::ostream& out, const Joint& joint) {
   }
   return out;
 }
+std::ostream& operator<<(std::ostream& out,
+                         const DenhavitHartenbergParam& params) {
+  out << Joint{} << "\n";
+  for (int ii{0}; ii < params.joints.size(); ++ii) {
+    out << params.joints[ii] << "\n";
+  }
+
+  return out;
+}
 }  // namespace kinematics

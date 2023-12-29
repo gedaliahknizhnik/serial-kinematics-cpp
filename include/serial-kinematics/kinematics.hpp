@@ -2,6 +2,7 @@
 #define SERIAL_KINEMATICS_HPP
 
 #include <array>
+#include <stdexcept>
 
 #include "Eigen/Geometry"
 
@@ -20,23 +21,15 @@ struct Joint {
 
 std::ostream& operator<<(std::ostream& out, const Joint& joint);
 
-template <int N>
 struct DenhavitHartenbergParam {
-  std::array<Joint, N> joints{};
+  std::vector<Joint> joints{};
 
   Joint& operator[](const int index) { return joints[index]; }
 };
 
-template <int N>
 std::ostream& operator<<(std::ostream& out,
-                         const DenhavitHartenbergParam<N>& params) {
-  out << Joint{} << "\n";
-  for (int ii{0}; ii < N; ++ii) {
-    out << params.joints[ii] << "\n";
-  }
+                         const DenhavitHartenbergParam& params);
 
-  return out;
-}
 Eigen::Matrix4d get_transform(const Joint joint, const double joint_angle);
 }  // namespace kinematics
 

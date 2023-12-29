@@ -1,6 +1,8 @@
 #include "serial-kinematics/kinematics.hpp"
 
 #include <Eigen/Geometry>
+#include <iomanip>
+#include <ios>
 
 namespace kinematics {
 Eigen::Matrix4d get_transform(const Joint joint, const double joint_angle) {
@@ -43,16 +45,17 @@ std::ostream& operator<<(std::ostream& out, const Joint& joint) {
   if (Type::not_a_joint == joint.type) {
     out << "[ theta, a, d, alpha ] <type> ";
   } else {
-    out << "[ " << joint.theta << ", " << joint.a << ", " << joint.d << ", "
-        << joint.alpha << "] <" << type_to_string(joint.type) << ">";
+    out << "[ " << std::fixed << std::setprecision(2) << joint.theta << ", "
+        << joint.a << ", " << joint.d << ", " << joint.alpha << "] <"
+        << type_to_string(joint.type) << ">";
   }
   return out;
 }
 std::ostream& operator<<(std::ostream& out,
                          const DenhavitHartenbergParam& params) {
   out << Joint{} << "\n";
-  for (int ii{0}; ii < params.joints.size(); ++ii) {
-    out << params.joints[ii] << "\n";
+  for (const auto& joint : params.joints) {
+    out << " - " << joint << "\n";
   }
 
   return out;

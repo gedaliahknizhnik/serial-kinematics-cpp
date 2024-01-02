@@ -41,10 +41,13 @@ add_library(kinematics src/kinematics.cpp
                        include/serial-kinematics/kinematics.hpp)
 target_link_libraries(kinematics Eigen3::Eigen)
 
+add_library(kinematic-chain src/kinematic-chain.cpp)
+target_link_libraries(kinematic-chain kinematics)
+
 # EXAMPLES #####################################################################
 
-add_executable(ex_kinematics src/example_kinematics.cpp)
-target_link_libraries(ex_kinematics kinematics)
+add_executable(ex_kinematics src/example-kinematics.cpp)
+target_link_libraries(ex_kinematics kinematics kinematic-chain)
 
 # TESTING ######################################################################
 

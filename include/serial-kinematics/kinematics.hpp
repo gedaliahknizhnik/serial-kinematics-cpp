@@ -53,6 +53,15 @@ struct DenhavitHartenbergParam {
    * @brief Overload access operator to the internal joints.
    */
   Joint& operator[](const int index) { return joints[index]; }
+  const Joint& operator[](const int index) const { return joints[index]; }
+  /**
+   * @brief Get size of the DH set.
+   */
+  int size() const { return joints.size(); }
+  /**
+   * @brief Get number of DOF in the system.
+   */
+  int dof() const { return size(); }
 };
 /**
  * @brief Overload print operator for a kinematic chain representation

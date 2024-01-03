@@ -10,6 +10,18 @@
  */
 namespace kinematics {
 
+/**
+ * @brief Calculate the sign of a value
+ *
+ * @return -1 -> val < 0
+ * @return +0 -> val = 0
+ * @return +1 -> val > 0
+ */
+template <typename T>
+int sgn(T val) {
+  return (T(0) < val) - (val < T(0));
+}
+
 // JOINT TYPES *****************************************************************
 
 /**

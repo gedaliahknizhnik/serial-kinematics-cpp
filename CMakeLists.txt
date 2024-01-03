@@ -41,7 +41,8 @@ add_library(kinematics src/kinematics.cpp
                        include/serial-kinematics/kinematics.hpp)
 target_link_libraries(kinematics Eigen3::Eigen)
 
-add_library(kinematic-chain src/kinematic-chain.cpp)
+add_library(kinematic-chain src/kinematic-chain.cpp
+                            include/serial-kinematics/kinematic-chain.hpp)
 target_link_libraries(kinematic-chain kinematics)
 
 # EXAMPLES #####################################################################
@@ -51,8 +52,9 @@ target_link_libraries(ex_kinematics kinematics kinematic-chain)
 
 # TESTING ######################################################################
 
-add_executable(tests tests/kinematics.cpp)
-target_link_libraries(tests PRIVATE kinematics Catch2::Catch2WithMain)
+add_executable(tests tests/kinematics.cpp tests/kinematic-chain.cpp)
+target_link_libraries(tests PRIVATE kinematics kinematic-chain
+                                    Catch2::Catch2WithMain)
 
 include(Catch)
 catch_discover_tests(tests)

@@ -15,13 +15,14 @@ using PosVec = Eigen::Vector3d;
 // 2. Row 0 of DH parameters corresponds to link 1, etc.
 class KinematicChain {
  public:
-  KinematicChain(const DenhavitHartenbergParam &params);
+  KinematicChain(const DenhavitHartenbergParam& params);
 
+  const Eigen::VectorXd& get_joint_vars() const;
   void set_joint_vars(Eigen::VectorXd joint_vars);
 
   /**
-   * @brief Get transform from frame index ind_from to frame index ind_to, where
-   * index 0 corresponds to the fixed base frame.
+   * @brief Get transform from frame index ind_from to frame index ind_to,
+   * where index 0 corresponds to the fixed base frame.
    *
    * - By default gives transformations to the origin frame.
    * - Works for transformations where ind_from < ind_to.

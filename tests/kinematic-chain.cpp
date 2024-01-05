@@ -54,6 +54,7 @@ TEST_CASE("Test kinematic chain errors", "[Kinematic-Chain]") {
 
     for (size_t ii{0}; ii < T.size(); ++ii) {
       REQUIRE(T[ii].isApprox(robot.get_transform_upto(ii)));
+      REQUIRE(T[ii].inverse().isApprox(robot.get_transform_upto(0, ii), 1e-3));
     }
 
     robot.set_joint_vars(Eigen::Vector<double, 6>{
@@ -75,8 +76,9 @@ TEST_CASE("Test kinematic chain errors", "[Kinematic-Chain]") {
 
     for (size_t ii{0}; ii < T1.size(); ++ii) {
       REQUIRE(T1[ii].isApprox(robot.get_transform_upto(ii), 1e-3));
+      REQUIRE(T1[ii].inverse().isApprox(robot.get_transform_upto(0, ii), 1e-3));
     }
 
-    // TODO: Test reverse case and partial
+    // TODO: Test and partial
   }
 }

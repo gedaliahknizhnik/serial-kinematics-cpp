@@ -37,6 +37,10 @@ TEST_CASE("Test kinematic chain errors", "[Kinematic-Chain]") {
          {kinematics::Type::revolute, 0, 0, 72, 0}}};
     kinematics::KinematicChain robot{dh};
 
+    REQUIRE_THROWS_AS(robot.get_transform_upto(dh.size() + 1),
+                      std::range_error);
+    REQUIRE_THROWS_AS(robot.get_transform_upto(-1), std::range_error);
+
     robot.set_joint_vars(Eigen::Vector<double, 6>{0, 0, 0, 0, 0, 0});
 
     std::array<kinematics::HomMat, 7> T;

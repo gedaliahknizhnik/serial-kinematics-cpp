@@ -44,9 +44,10 @@ HomMat KinematicChain::get_transform_upto(const int ind_from,
   HomMat out{HomMat::Identity()};
 
   for (int ii{std::min(ind_to, ind_from)}; ii < std::max(ind_to, ind_from);
-       ++ii) {  // TODO: Check what happens when ii is 0
+       ++ii) {
     out = out * get_transform(_params[ii], _joint_vars[ii]);
   }
+
   if (ind_to > ind_from) {
     out = out.inverse().eval();
   }

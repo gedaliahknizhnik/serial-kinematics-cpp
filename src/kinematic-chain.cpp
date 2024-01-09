@@ -48,13 +48,14 @@ HomMat KinematicChain::get_transform_upto(const int ind_from,
   }
 
   HomMat out{HomMat::Identity()};
-
-  for (int ii{std::min(ind_to, ind_from)}; ii < std::max(ind_to, ind_from);
-       ++ii) {
+  int ind_min{std::min(ind_to, ind_from)}, ind_max{std::max(ind_to, ind_from)};
+  for (int ii{ind_min}; ii < ind_max; ++ii) {
     out = out * get_transform(_params[ii], _joint_vars[ii]);
   }
 
   if (ind_to > ind_from) {
+    _transform_map.insert(
+        {{ind_to, ind_from}, out});  // Store forward direction
     out = out.inverse().eval();
   }
 

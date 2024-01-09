@@ -22,7 +22,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # INCLUDES ####################################################################
 
 find_package(Eigen3 REQUIRED)
-
+find_package(Boost REQUIRED)
 include(FetchContent)
 
 FetchContent_Declare(
@@ -34,6 +34,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2)
 
 include_directories(include)
+include_directories(${Boost_INCLUDE_DIR})
 
 # KINEMATICS LIBRARY ###########################################################
 
@@ -43,7 +44,7 @@ target_link_libraries(kinematics Eigen3::Eigen)
 
 add_library(kinematic-chain src/kinematic-chain.cpp
                             include/serial-kinematics/kinematic-chain.hpp)
-target_link_libraries(kinematic-chain kinematics)
+target_link_libraries(kinematic-chain kinematics ${Boost_LIBRARIES})
 
 # EXAMPLES #####################################################################
 

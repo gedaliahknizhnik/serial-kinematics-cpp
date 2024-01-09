@@ -24,6 +24,7 @@ void KinematicChain::set_joint_vars(Eigen::VectorXd joint_vars) {
     throw std::invalid_argument("Joint variables must be _dof x 1.");
   }
   _joint_vars = joint_vars;
+  _transform_map.clear();
 }
 
 /**
@@ -41,6 +42,11 @@ HomMat KinematicChain::get_transform_upto(const int ind_from,
         "Transforms outside the range [0, _dof] are inaccessible.");
   }
 
+  auto it = _transform_map.find({ind_from, ind_to});
+  if (it != _transform_map.end()) {
+    return it->second;
+  }
+
   HomMat out{HomMat::Identity()};
 
   for (int ii{std::min(ind_to, ind_from)}; ii < std::max(ind_to, ind_from);
@@ -51,6 +57,8 @@ HomMat KinematicChain::get_transform_upto(const int ind_from,
   if (ind_to > ind_from) {
     out = out.inverse().eval();
   }
+
+  _transform_map.insert({{ind_from, ind_to}, out});
   return out;
 }
 

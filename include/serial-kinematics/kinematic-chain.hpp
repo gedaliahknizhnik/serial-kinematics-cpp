@@ -1,6 +1,9 @@
 #ifndef KINEMATIC_CHAIN_HPP
 #define KINEMATIC_CHAIN_HPP
 
+#include <boost/functional/hash.hpp>
+#include <unordered_map>
+
 #include "serial-kinematics/kinematics.hpp"
 
 namespace kinematics {
@@ -38,6 +41,9 @@ class KinematicChain {
   const int _dof{};
 
   Eigen::VectorXd _joint_vars{};
+  std::unordered_map<std::pair<int, int>, HomMat,
+                     boost::hash<std::pair<int, int>>>
+      _transform_map;
 };
 
 }  // namespace kinematics

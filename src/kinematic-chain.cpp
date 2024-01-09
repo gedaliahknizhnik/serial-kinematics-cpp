@@ -54,4 +54,18 @@ HomMat KinematicChain::get_transform_upto(const int ind_from,
   return out;
 }
 
+RotMat KinematicChain::get_rotation_upto(const int ind_from, const int ind_to) {
+  HomMat H{get_transform_upto(ind_from, ind_to)};
+  return H.block<3, 3>(0, 0);
+}
+HomVec KinematicChain::get_position_vec_hom(const int ind_from,
+                                            const int ind_to) {
+  HomMat H{get_transform_upto(ind_from, ind_to)};
+  return H.block<4, 1>(0, 3);
+}
+PosVec KinematicChain::get_position_vec(const int ind_from, const int ind_to) {
+  HomMat H{get_transform_upto(ind_from, ind_to)};
+  return H.block<3, 1>(0, 3);
+}
+
 }  // namespace kinematics

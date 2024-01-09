@@ -29,6 +29,10 @@ class KinematicChain {
    */
   HomMat get_transform_upto(const int ind_from, const int ind_to = 0);
 
+  RotMat get_rotation_upto(const int ind_from, const int ind_to = 0);
+  HomVec get_position_vec_hom(const int ind_from, const int ind_to = 0);
+  PosVec get_position_vec(const int ind_from, const int ind_to = 0);
+
  private:
   const DenhavitHartenbergParam _params{};
   const int _dof{};

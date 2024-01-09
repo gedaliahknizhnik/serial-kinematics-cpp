@@ -60,6 +60,12 @@ TEST_CASE("Test Kinematic chain transformatons",
     for (size_t ii{0}; ii < T.size(); ++ii) {
       REQUIRE(T[ii].isApprox(robot.get_transform_upto(ii)));
       REQUIRE(T[ii].inverse().isApprox(robot.get_transform_upto(0, ii), 1e-3));
+      REQUIRE(
+          T[ii].block<3, 3>(0, 0).isApprox(robot.get_rotation_upto(ii), 1e-3));
+      REQUIRE(T[ii].block<4, 1>(0, 3).isApprox(robot.get_position_vec_hom(ii),
+                                               1e-3));
+      REQUIRE(
+          T[ii].block<3, 1>(0, 3).isApprox(robot.get_position_vec(ii), 1e-3));
     }
   }
 
@@ -69,23 +75,29 @@ TEST_CASE("Test Kinematic chain transformatons",
     robot.set_joint_vars(Eigen::Vector<double, 6>{
         M_PI / 3, -M_PI / 3, M_PI / 4, M_PI / 6, -M_PI / 6, M_PI / 9});
 
-    std::array<kinematics::HomMat, 7> T1;
-    T1[0] = kinematics::HomMat::Identity();
-    T1[1] << 0.5, 0, -0.866, 0, 0.866, 0, 0.5, 0, 0, -1, 0, 290, 0, 0, 0, 1;
-    T1[2] << -0.433, 0.25, -0.866, -116.914, -0.75, 0.433, 0.5, -202.5, 0.5,
+    std::array<kinematics::HomMat, 7> T;
+    T[0] = kinematics::HomMat::Identity();
+    T[1] << 0.5, 0, -0.866, 0, 0.866, 0, 0.5, 0, 0, -1, 0, 290, 0, 0, 0, 1;
+    T[2] << -0.433, 0.25, -0.866, -116.914, -0.75, 0.433, 0.5, -202.5, 0.5,
         0.866, 0, 425, 0, 0, 0, 1;
-    T1[3] << 0.129, -0.866, 0.483, -125.972, 0.224, 0.5, 0.837, -218.19, -0.966,
+    T[3] << 0.129, -0.866, 0.483, -125.972, 0.224, 0.5, 0.837, -218.19, -0.966,
         0, 0.259, 492.615, 0, 0, 0, 1;
-    T1[4] << -0.321, -0.483, -0.815, 19.883, 0.444, -0.837, 0.321, 34.438,
+    T[4] << -0.321, -0.483, -0.815, 19.883, 0.444, -0.837, 0.321, 34.438,
         -0.837, -0.259, 0.483, 570.778, 0, 0, 0, 1;
-    T1[5] << -0.036, -0.815, 0.579, 19.883, 0.803, 0.321, 0.502, 34.438, -0.595,
+    T[5] << -0.036, -0.815, 0.579, 19.883, 0.803, 0.321, 0.502, 34.438, -0.595,
         0.483, 0.642, 570.778, 0, 0, 0, 1;
-    T1[6] << -0.313, -0.753, 0.579, 61.551, 0.864, 0.027, 0.502, 70.61, -0.394,
+    T[6] << -0.313, -0.753, 0.579, 61.551, 0.864, 0.027, 0.502, 70.61, -0.394,
         0.657, 0.642, 617.031, 0, 0, 0, 1;
 
-    for (size_t ii{0}; ii < T1.size(); ++ii) {
-      REQUIRE(T1[ii].isApprox(robot.get_transform_upto(ii), 1e-3));
-      REQUIRE(T1[ii].inverse().isApprox(robot.get_transform_upto(0, ii), 1e-3));
+    for (size_t ii{0}; ii < T.size(); ++ii) {
+      REQUIRE(T[ii].isApprox(robot.get_transform_upto(ii), 1e-3));
+      REQUIRE(T[ii].inverse().isApprox(robot.get_transform_upto(0, ii), 1e-3));
+      REQUIRE(
+          T[ii].block<3, 3>(0, 0).isApprox(robot.get_rotation_upto(ii), 1e-3));
+      REQUIRE(T[ii].block<4, 1>(0, 3).isApprox(robot.get_position_vec_hom(ii),
+                                               1e-3));
+      REQUIRE(
+          T[ii].block<3, 1>(0, 3).isApprox(robot.get_position_vec(ii), 1e-3));
     }
   }
 

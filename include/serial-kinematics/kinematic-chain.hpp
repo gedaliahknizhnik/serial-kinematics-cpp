@@ -36,6 +36,11 @@ class KinematicChain {
   HomVec get_position_vec_hom(const int ind_from, const int ind_to = 0);
   PosVec get_position_vec(const int ind_from, const int ind_to = 0);
 
+  HomVec transform_point(const HomVec& pt_in, const int frame_in,
+                         const int frame_out = 0);
+  PosVec transform_point(const PosVec& pt_in, const int frame_in,
+                         const int frame_out = 0);
+
  private:
   const DenhavitHartenbergParam _params{};
   const int _dof{};

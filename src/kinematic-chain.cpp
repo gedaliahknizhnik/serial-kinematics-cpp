@@ -77,4 +77,17 @@ PosVec KinematicChain::get_position_vec(const int ind_from, const int ind_to) {
   return H.block<3, 1>(0, 3);
 }
 
+HomVec KinematicChain::transform_point(const HomVec& pt_in, const int frame_in,
+                                       const int frame_out) {
+  HomMat H{get_transform_upto(frame_in, frame_out)};
+  return H * pt_in;
+}
+PosVec KinematicChain::transform_point(const PosVec& pt_in, const int frame_in,
+                                       const int frame_out) {
+  HomVec v;
+  v.block<3, 1>(0, 0) = pt_in;
+  v(3) = 1;
+  HomVec v_out{transform_point(v, frame_in, frame_out)};
+  return v_out.block<3, 1>(0, 0);
+}
 }  // namespace kinematics

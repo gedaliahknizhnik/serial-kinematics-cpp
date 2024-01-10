@@ -66,6 +66,10 @@ TEST_CASE("Test Kinematic chain transformatons",
                                                1e-3));
       REQUIRE(
           T[ii].block<3, 1>(0, 3).isApprox(robot.get_position_vec(ii), 1e-3));
+      REQUIRE(T[ii].block<3, 1>(0, 3).isApprox(
+          robot.transform_point(Eigen::Vector3d{0, 0, 0}, ii), 1e-3));
+      REQUIRE(T[ii].block<4, 1>(0, 3).isApprox(
+          robot.transform_point(Eigen::Vector4d{0, 0, 0, 1}, ii), 1e-3));
     }
   }
 
@@ -98,6 +102,10 @@ TEST_CASE("Test Kinematic chain transformatons",
                                                1e-3));
       REQUIRE(
           T[ii].block<3, 1>(0, 3).isApprox(robot.get_position_vec(ii), 1e-3));
+      REQUIRE(T[ii].block<3, 1>(0, 3).isApprox(
+          robot.transform_point(Eigen::Vector3d{0, 0, 0}, ii), 1e-3));
+      REQUIRE(T[ii].block<4, 1>(0, 3).isApprox(
+          robot.transform_point(Eigen::Vector4d{0, 0, 0, 1}, ii), 1e-3));
     }
   }
 

@@ -122,4 +122,24 @@ TEST_CASE("Test Kinematic chain transformatons",
     REQUIRE(TPart1.isApprox(robot.get_transform_upto(6, 1), 1e-3));
     REQUIRE(TPart2.isApprox(robot.get_transform_upto(5, 1), 1e-3));
   }
+
+  SECTION("Transormation Storage", "Test whether transforms are being stored") {
+    robot.set_joint_vars(Eigen::Vector<double, 6>{
+        M_PI / 3, -M_PI / 3, M_PI / 4, M_PI / 6, -M_PI / 6, M_PI / 9});
+    kinematics::TransformMap::iterator it;
+
+    for (int ii{0}; ii < 7; ++ii) {
+      REQUIRE(!robot.check_transform_known(ii, 0, it));
+      robot.get_transform_upto(ii);
+      REQUIRE(robot.check_transform_known(ii, 0, it));
+    }
+
+    robot.set_joint_vars(Eigen::Vector<double, 6>{
+        M_PI / 3, -M_PI / 3, M_PI / 4, M_PI / 6, -M_PI / 6, M_PI / 9});
+    for (int ii{0}; ii < 7; ++ii) {
+      robot.get_transform_upto(0, ii);
+      REQUIRE(robot.check_transform_known(ii, 0, it));
+      REQUIRE(robot.check_transform_known(0, ii, it));
+    }
+  }
 }

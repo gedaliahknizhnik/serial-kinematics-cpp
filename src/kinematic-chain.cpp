@@ -42,8 +42,8 @@ HomMat KinematicChain::get_transform_upto(const int ind_from,
         "Transforms outside the range [0, _dof] are inaccessible.");
   }
 
-  auto it = _transform_map.find({ind_from, ind_to});
-  if (it != _transform_map.end()) {
+  TransformMap::iterator it;
+  if (check_transform_known(ind_from, ind_to, it)) {
     return it->second;
   }
 
@@ -89,5 +89,12 @@ PosVec KinematicChain::transform_point(const PosVec& pt_in, const int frame_in,
   v(3) = 1;
   HomVec v_out{transform_point(v, frame_in, frame_out)};
   return v_out.block<3, 1>(0, 0);
+}
+
+bool KinematicChain::check_transform_known(const int frame_from,
+                                           const int frame_to,
+                                           TransformMap::iterator& it) {
+  it = _transform_map.find({frame_from, frame_to});
+  return (it != _transform_map.end());
 }
 }  // namespace kinematics

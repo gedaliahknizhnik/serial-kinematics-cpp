@@ -12,7 +12,8 @@ using HomMat = Eigen::Matrix4d;
 using RotMat = Eigen::Matrix3d;
 using HomVec = Eigen::Vector4d;
 using PosVec = Eigen::Vector3d;
-
+using TransformMap = std::unordered_map<std::pair<int, int>, HomMat,
+                                        boost::hash<std::pair<int, int>>>;
 // TODO: Formalize these assumptions in documentation:
 // 1. Frame 0 is a fixed origin Frame
 // 2. Row 0 of DH parameters corresponds to link 1, etc.
@@ -41,14 +42,15 @@ class KinematicChain {
   PosVec transform_point(const PosVec& pt_in, const int frame_in,
                          const int frame_out = 0);
 
+  bool check_transform_known(const int frame_in, const int frame_out,
+                             TransformMap::iterator& it);
+
  private:
   const DenhavitHartenbergParam _params{};
   const int _dof{};
 
   Eigen::VectorXd _joint_vars{};
-  std::unordered_map<std::pair<int, int>, HomMat,
-                     boost::hash<std::pair<int, int>>>
-      _transform_map;
+  TransformMap _transform_map;
 };
 
 }  // namespace kinematics

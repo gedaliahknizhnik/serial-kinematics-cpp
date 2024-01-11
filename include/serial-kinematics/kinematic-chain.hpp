@@ -12,6 +12,8 @@ using HomMat = Eigen::Matrix4d;
 using RotMat = Eigen::Matrix3d;
 using HomVec = Eigen::Vector4d;
 using PosVec = Eigen::Vector3d;
+using Vector6d = Eigen::Vector<double, 6>;
+
 using TransformMap = std::unordered_map<std::pair<int, int>, HomMat,
                                         boost::hash<std::pair<int, int>>>;
 // TODO: Formalize these assumptions in documentation:
@@ -41,6 +43,12 @@ class KinematicChain {
                          const int frame_out = 0);
   PosVec transform_point(const PosVec& pt_in, const int frame_in,
                          const int frame_out = 0);
+
+  PosVec transform_velocity(const PosVec& vel_in, const int frame_in,
+                            const int frame_out);
+
+  Vector6d transform_velocity(const Vector6d& vel_in, const int frame_in,
+                              const int frame_out);
 
   bool check_transform_known(const int frame_in, const int frame_out,
                              TransformMap::iterator& it);

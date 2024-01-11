@@ -91,6 +91,25 @@ PosVec KinematicChain::transform_point(const PosVec& pt_in, const int frame_in,
   return v_out.block<3, 1>(0, 0);
 }
 
+PosVec KinematicChain::transform_velocity(const PosVec& vel_in,
+                                          const int frame_in,
+                                          const int frame_out) {
+  RotMat R{get_rotation_upto(frame_in, frame_out)};
+  return R * vel_in;
+}
+
+Vector6d KinematicChain::transform_velocity(const Vector6d& vel_in,
+                                            const int frame_in,
+                                            const int frame_out) {
+  RotMat R{get_rotation_upto(frame_in, frame_out)};
+
+  Vector6d vel_out;
+  vel_out.block<3, 1>(0, 0) = R * vel_in.block<3, 1>(0, 0);
+  vel_out.block<3, 1>(3, 0) = R * vel_in.block<3, 1>(3, 0);
+
+  return vel_out;
+}
+
 bool KinematicChain::check_transform_known(const int frame_from,
                                            const int frame_to,
                                            TransformMap::iterator& it) {

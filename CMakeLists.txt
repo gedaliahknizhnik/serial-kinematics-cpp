@@ -22,7 +22,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # INCLUDES ####################################################################
 
 find_package(Eigen3 REQUIRED)
-
+find_package(Boost REQUIRED)
 include(FetchContent)
 
 FetchContent_Declare(
@@ -34,6 +34,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2)
 
 include_directories(include)
+include_directories(${Boost_INCLUDE_DIR})
 
 # KINEMATICS LIBRARY ###########################################################
 
@@ -41,15 +42,20 @@ add_library(kinematics src/kinematics.cpp
                        include/serial-kinematics/kinematics.hpp)
 target_link_libraries(kinematics Eigen3::Eigen)
 
+add_library(kinematic-chain src/kinematic-chain.cpp
+                            include/serial-kinematics/kinematic-chain.hpp)
+target_link_libraries(kinematic-chain kinematics ${Boost_LIBRARIES})
+
 # EXAMPLES #####################################################################
 
-add_executable(ex_kinematics src/example_kinematics.cpp)
-target_link_libraries(ex_kinematics kinematics)
+add_executable(ex_kinematics src/example-kinematics.cpp)
+target_link_libraries(ex_kinematics kinematics kinematic-chain)
 
 # TESTING ######################################################################
 
-add_executable(tests tests/kinematics.cpp)
-target_link_libraries(tests PRIVATE kinematics Catch2::Catch2WithMain)
+add_executable(tests tests/kinematics.cpp tests/kinematic-chain.cpp)
+target_link_libraries(tests PRIVATE kinematics kinematic-chain
+                                    Catch2::Catch2WithMain)
 
 include(Catch)
 catch_discover_tests(tests)

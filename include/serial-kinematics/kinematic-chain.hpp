@@ -192,8 +192,8 @@ class KinematicChain {
 
 // TYPE ALIASES FOR KINEMATIC_CHAIN ********************************************
 
-using SerialManipulator = KinematicChain;
-using SerialRobot = KinematicChain;
+using SerialManipulator = KinematicChain;  ///< A serial manipulator alias
+using SerialRobot = KinematicChain;        ///< A serial robot alias
 
 }  // namespace kinematics
 

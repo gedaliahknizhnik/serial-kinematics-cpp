@@ -1,0 +1,11 @@
+[requires]
+eigen/3.4.0
+boost/1.85.0
+catch2/3.6.0
+
+[tool_requires]
+cmake/3.22.6
+
+[generators]
+CMakeDeps
+CMakeToolchain

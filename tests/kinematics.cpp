@@ -1,8 +1,18 @@
-#define CATCH_CONFIG_MAIN
+// #define CATCH_CONFIG_MAIN
 
 #include "serial-kinematics/kinematics.hpp"
 
+#include <catch2/catch_session.hpp>
+
 #include "catch2/catch_all.hpp"
+
+int main(int argc, char* argv[]) {
+  int result = Catch::Session().run(argc, argv);
+
+  // your clean-up...
+
+  return result;
+}
 
 TEST_CASE("Test homogeneous transforms", "[Kinematics]") {
   SECTION("Revolute Joint") {

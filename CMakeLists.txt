@@ -23,18 +23,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(Eigen3 REQUIRED)
 find_package(Boost REQUIRED)
-include(FetchContent)
-
-FetchContent_Declare(
-  Catch2
-  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG v3.4.0 # or a later release
-)
-
-FetchContent_MakeAvailable(Catch2)
+find_package(Catch2 REQUIRED)
 
 include_directories(include)
-include_directories(${Boost_INCLUDE_DIR})
 
 # KINEMATICS LIBRARY ###########################################################
 
@@ -44,7 +35,7 @@ target_link_libraries(kinematics Eigen3::Eigen)
 
 add_library(kinematic-chain src/kinematic-chain.cpp
                             include/serial-kinematics/kinematic-chain.hpp)
-target_link_libraries(kinematic-chain kinematics ${Boost_LIBRARIES})
+target_link_libraries(kinematic-chain kinematics boost::boost)
 
 # EXAMPLES #####################################################################
 
@@ -54,8 +45,7 @@ target_link_libraries(ex_kinematics kinematics kinematic-chain)
 # TESTING ######################################################################
 
 add_executable(tests tests/kinematics.cpp tests/kinematic-chain.cpp)
-target_link_libraries(tests PRIVATE kinematics kinematic-chain
-                                    Catch2::Catch2WithMain)
+target_link_libraries(tests kinematics kinematic-chain Catch2::Catch2)
 
 include(Catch)
 catch_discover_tests(tests)
